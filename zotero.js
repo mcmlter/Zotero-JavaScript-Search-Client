@@ -13,7 +13,7 @@ var ZOTERO_CONFIG = {
    //"showTagColName": "Relationship", // Name for the column in HTML table under which the showTags will appear
    "showTags": "", // Include a column showing this tag if present for each item
    "showTagColName": "", // Name for the column in HTML table under which the showTags will appear
-   "style": "", // Bibliography display style, e.g., apa. Leave blank for default which is chicago-note-bibliography.
+   "style": "bioscience", // Bibliography display style, e.g., apa. Leave blank for default which is chicago-note-bibliography.
    "limit": 10, // Max number of results to retrieve per page
    "urlElementId": "searchUrl", // Element to display search URL
    "countElementId": "resultCount", // Element showing number of results
@@ -181,7 +181,7 @@ function parseZoteroResults(resultText) {
 
    function parseItemLink(url) {
       if (url)
-         return '<a href="' + url + '" target="_blank" rel="noopener" aria-label="open item in new tab">Item link.</a>';
+        return '[<a href="' + url + '" target="_blank" rel="noopener" aria-label="open item in new tab">link</a>]';
       else
          return "";
    }
@@ -231,11 +231,12 @@ function parseZoteroResults(resultText) {
       var dataLinks = parseDataLinks(result["data"]["extra"]);
       var row = "<tr>";
       if (showYear) {
-         row += "<td>" + year + "</td>";
+         row += '<td class="year">' + year + '</td>';
       }
-      row += "<td>" + result["bib"] + itemLink + " " + dataLinks + "</td>";
+      let bib = result["bib"].replace(/^<div class="csl-entry">/, '<span class="csl-entry">').replace(/<\/div>$/, '</span>');
+row += "<td>" + bib + " " + itemLink + " " + dataLinks + "</td>";
       if (showType) {
-         row += "<td>" + itemType + "</td>";
+        row += '<td class="type">' + itemType + '</td>';
       }
       if (showTags) {
          row += "<td>" + tagsToShow + "</td>";
@@ -355,8 +356,10 @@ function initCollapsible(expanded) {
       if (el.type && el.type === 'checkbox') {
          el.checked = expanded;
          var target = document.getElementById(el.getAttribute("aria-controls"));
-         listenForFocus(target, el);
-         showHide(target, expanded);
+         if (target) {
+           listenForFocus(target, el);
+           showHide(target, expanded);
+         }
          el.setAttribute("aria-expanded", expanded.toString());
          el.onchange = function () {
             showHide(target, this.checked);

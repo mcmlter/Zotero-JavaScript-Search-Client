@@ -1,25 +1,16 @@
 # [Zotero-JavaScript-Search-Client](https://github.com/BLE-LTER/Zotero-JavaScript-Search-Client)
 
-[![DOI](https://zenodo.org/badge/101798279.svg)](https://zenodo.org/badge/latestdoi/101798279)
+Code for displaying and searching the McMurdo Dry Valleys LTER (MCM) bibliography using the Zotero API. This repository was originally forked from the [BLE LTER Zotero JavaScript Search Client](https://github.com/BLE-LTER/Zotero-JavaScript-Search-Client) and has since been customized and extended for use by MCM.
 
-Example HTML, CSS, and JavaScript for searching for items within a public Zotero
-user or group library
-
-[See the Repo](https://github.com/BLE-LTER/Zotero-JavaScript-Search-Client)
-
-Live demos:
-
-* [Basic example](https://ble-lter.github.io/Zotero-JavaScript-Search-Client/minimal.html)
-* [Complete example](https://ble-lter.github.io/Zotero-JavaScript-Search-Client/complete.html)
-
-## Motivation
-
-To help users discover your publications, you can add them to an online database like Zotero and then present a search interface to that database on your website. Modules for doing so have been written for WordPress and Drupal, but I hadn't seen one for static HTML sites, so I wrote this example to test how feasible a static HTML Zotero client would be to implement.
+Key customizations include:
+- Refined UI/UX elements for pagination and search results
+- Modified citation formatting (based on *BioScience* style)
+- Improved inline display of bibliographic links
 
 ## Usage
 
-Open the zotero.html file in your browser and enter a search term like
-`coastal`. Click the search button and see results as formatted by Zotero to the page.
+Open the index.html file in your browser and enter a search term like
+`polar`. Click the search button and see results as formatted by Zotero to the page.
 
 You can click Search with no terms specified to show the entire catalog, which is the default behavior when you load the page.
 

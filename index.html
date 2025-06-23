@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-   <title>Demo Zotero Search (max UI)</title>
+   <title>MCM LTER Bibliography</title>
    <meta charset="utf-8" />
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -17,29 +17,50 @@
 <body>
    <div class="container">
       <h1>MCM LTER Bibliography</h1>
-      <p>This <a href="https://github.com/BLE-LTER/Zotero-JavaScript-Search-Client"
-            rel="noopener">Zotero-JavaScript-Search-Client</a> example
-         shows all possible user interface items. It also shows
-         the URL with parameters sent to the Zotero API.</p>
-      <p>Enter a search term, e.g., water. The user or group with ID <span id="displayId">(not set)</span> will be
-         searched.</p>
+
+      <p>
+        This searchable database includes all MCM-supported publications and key foundational literature. Results may take a moment to load. PDFs are available for most publications, which can be
+        viewed or downloaded by anyone by who joins the <a href="https://www.zotero.org/groups/2636203/lter-mcm" target="_blank" rel="noopener">LTER-MCM Zotero group</a>. Here's how:
+      </p>
+
+      <ol>
+          <li>Create a free Zotero account at <a href="https://www.zotero.org" target="_blank" rel="noopener">zotero.org</a> (click <strong>Register</strong> at the top right).</li>
+          <li>Log in and visit the <a href="https://www.zotero.org/groups/2636203/lter-mcm" target="_blank" rel="noopener">LTER-MCM Zotero group</a>.</li>
+          <li>Click <strong>Join</strong> (button on the right side).</li>
+          <li>Once approved, you'll have access to PDFs via the <a href="https://www.zotero.org/groups/2636203/lter-mcm/library" target="_blank" rel="noopener">group library</a>.</li>
+      </ol>
+
+      <p>
+        To search, enter a term below (e.g., title or author). You can also filter by item type and change the sort order.
+        <em>Please note that this search tool uses the Zotero API and supports only basic citation fields; it does not search abstracts, keyword tags, or full text.</em>
+        To browse by keyword, use the Zotero <a href="https://www.zotero.org/groups/2636203/lter-mcm/library" target="_blank" rel="noopener">group library</a> and select tags
+        from the sidebar.
+      </p>
+
+      <p>
+        For more advanced features, such as full-text search (if enabled) and integration with word processors for citation management, we
+        recommend using the <a href="https://www.zotero.org/download/" target="_blank" rel="noopener">Zotero desktop app</a>. Refer to the
+        <a href="https://www.zotero.org/support/" target="_blank" rel="noopener">Zotero documentation</a> for further details.
+      </p>
+
+      <p>
+        Questions or corrections? Contact the MCM LTER Information Management Team at <a href="mailto:im@mcmlter.org">im@mcmlter.org</a>.
+      </p>
+
       <form id="zoteroSearchForm" name="zoteroSearchForm">
-         <input type="hidden" id="sort" name="sort" value="date">
-         <input class="search-input" name="q" placeholder="Enter search term" type="text">
-         <input type="submit" value="Search">
-
-         <div style="margin-top: 10px">
-            <input aria-expanded="false" aria-controls="advancedInputs" class="collapse-toggle" name="expanded"
-               type="checkbox" value="true" id="advancedToggle" role="button">
-            <label class="lbl-toggle" tabindex="0" for="advancedToggle">
-               Advanced
-            </label>
-         </div>
-
-         <div class="collapsible" id="advancedInputs">
-            <div class="input-block">
-               <i class="fas fa-book"></i><label class="group-label" for="itemType">Item Type</label><br>
-               <select class="search-input" name="itemType" id="itemType">
+        <table>
+          <tr>
+            <td>
+              <div style="float:left;margin-right:20px;">
+                <input type="hidden" id="sort" name="sort" value="date">
+                <label for="q"><strong>Search:</strong></label>
+                <input class="search-input" name="q" id="q" placeholder="Enter search term" type="text">
+              </div>
+            </td>
+            <td>
+              <div style="float:left;margin-right:20px;">
+                <label for="search-type"><strong>Item Type:</strong></label>
+                <select id="itemType" name="itemType">
                   <option value="-attachment || note">Any</option>
                   <option value="journalArticle">Journal Article</option>
                   <option value="thesis">Thesis</option>
@@ -48,42 +69,43 @@
                   <option value="conferencePaper">Conference Paper</option>
                   <option value="magazineArticle">Magazine Article</option>
                   <option value="report">Report</option>
-                  <!--
-               <option value="conferencePaper">Conference Paper</option>
-               <option value="magazineArticle">Magazine Article</option>
-               <option value="videoRecording">Video</option>-->
+                </select>
+              </div>
+            </td>
+            <td>
+            <div style="float:left;margin-right:20px;" id="sortDiv">
+               <label for="visibleSort"><strong>Sort by:</strong></label>
+               <select name="sort" id="visibleSort">
+                  <option value="date">Publication Date</option>
+                  <option value="dateAdded">Date Added</option>
+                  <option value="itemType">Item Type</option>
+                  <option value="creator">Author (a-z)</option>
+                  <option value="title">Title (a-z)</option>
                </select>
             </div>
-            <input type="submit" value="Search">
-         </div>
+          </td>
+            <td>
+              <div id="searchButtonDiv">
+                <input type="submit" value="Search" name="searchButton" id="searchButton">
+              </div>
+            </td>
+          </tr>
+        </table>
       </form>
+
+      <br>
 
       <div class="loading" id="loading-div">
          <i class="fas fa-spinner fa-pulse fa-3x fa-fw"></i>
          <span class="sr-only">Loading...</span>
       </div>
 
-      <p>Search URL will be written below:</p>
-      <p id="searchUrl"></p>
-      <p>Search results will be written below:</p>
       <div class="resultCount" id="resultCount"></div>
       <div class="pagination" id="paginationTop"></div>
-      <div style="display:none" id="sortDiv">
-         <label for="visibleSort">Sort by</label>
-         <select name="sort" id="visibleSort">
-            <option value="date">Publication Date</option>
-            <option value="dateAdded">Date Added</option>
-            <option value="itemType">Item Type</option>
-            <option value="creator">Creator (a-z)</option>
-            <option value="title">Title (a-z)</option>
-         </select>
-      </div>
+
       <div id="searchResults"></div>
       <div class="pagination" id="paginationBot"></div>
    </div>
-   <script>
-      document.getElementById("displayId").innerHTML = ZOTERO_CONFIG["zotId"];
-   </script>
 </body>
 
 </html>
